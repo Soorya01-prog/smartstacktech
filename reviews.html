@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews - SmartStack Technologies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #fa709a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .review-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .review-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .customer-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-right: 15px;
+        }
+
+        .customer-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .customer-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .star {
+            color: #ffd700;
+            font-size: 1.2rem;
+        }
+
+        .star.empty {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .review-text {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .project-type {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: #000;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stats-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .reviews-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .review-card {
+                padding: 20px;
+            }
+
+            .stats-section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn">← Back to Home</a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Customer Reviews</h1>
+            <p>See what our clients say about their experience working with SmartStack Technologies</p>
+        </div>
+
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">AR</div>
+                    <div class="customer-info">
+                        <h3>Muthukumar</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">The Live Web Dashboard for my project has been developed by SmartStack Technologies and it is excellent — it showcases and controls industry-related alerts in the cloud with ease, while also maintaining detailed logs of alert history. Its real-time, live monitoring makes managing alerts simple and efficient. Overall, it’s a robust, user-friendly solution that adds real value for industrial operations. Great work by the team!</p>
+                <span class="project-type">College Project</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">PS</div>
+                    <div class="customer-info">
+                        <h3>Priya S</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">The portfolio website created by Smart Stack technologies was really good. They had created my website in a very short span of time which had all the features.
+They also added many features which was not said by me , making the website even more attractive. It had all the features highlighting the important details. Overall the website created by them is excellent which also did not have any flaws in it.</p>
+                <span class="project-type">Portfolio Website</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">RK</div>
+                    <div class="customer-info">
+                        <h3>Rajesh Kumar</h3>
+                        <p>Business Owner</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">Smart Stack built our custom e-commerce platform exactly how we envisioned it. The site is fast, secure, and super easy for our customers to use. Their team was always available for tweaks and suggestions.</p>
+                <span class="project-type">E-commerce</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">KK</div>
+                    <div class="customer-info">
+                        <h3>Kavin Kiruthik</h3>
+                        <p>Business Owner</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    
+                </div>
+                <p class="review-text">I loved how Smart Stack understood my brand vision and turned it into a clean, modern logo. They shared multiple concepts, patiently refined my feedback, and delivered files ready for everything.</p>
+                <span class="project-type">Logo Design</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">AA</div>
+                    <div class="customer-info">
+                        <h3>Arjun</h3>
+                        <p>Viscom Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">I needed a professional edit for my college short film, and these guys nailed it with DaVinci Resolve. The color grading and cuts were so smooth,looked way more professional than I expected at this budget.</p>
+                <span class="project-type">Video Editing</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">KK</div>
+                    <div class="customer-info">
+                        <h3>Karthik</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">We collaborated with Smart Stack for an ML-based automation task. They developed a solid predictive model and set up an automated pipeline that saves us hours every week. Super technical yet clear communication throughout.</p>
+                <span class="project-type">College Project</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">RM</div>
+                    <div class="customer-info">
+                        <h3>Rohit M</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <p class="review-text">Their IoT solution for our smart greenhouse prototype worked perfectly. The sensors, data logging, and app dashboard were all integrated neatly. They even helped us demo it for our college project expo. Really helpful team</p>
+                <span class="project-type">College Project</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="customer-avatar">L</div>
+                    <div class="customer-info">
+                        <h3>Lavanya D</h3>
+                        <p>Student</p>
+                    </div>
+                </div>
+                <div class="rating">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    
+                </div>
+                <p class="review-text">I needed an Arduino-based attendance system for my college project,they handled the circuit design, coding, and testing. Delivered on time with proper documentation and support for viva.</p>
+                <span class="project-type">Arduino-based</span>
+            </div>
+        </div>
+
+        <div class="stats-section">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Customer Satisfaction Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">92%</div>
+                    <div class="stat-label">Satisfaction Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.6</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Happy Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support for Viva and Documentation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
